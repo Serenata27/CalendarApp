@@ -13,25 +13,28 @@
         tools:layout_editor_absoluteY="1dp">
 
         <Button
-            android:id="@+id/button7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
+            android:id="@+id/Calendar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Calendar"
+            android:textSize="24sp"
+            app:backgroundTint="background_color"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button8"
+            app:layout_constraintEnd_toStartOf="@+id/To_Do"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="107dp"
-            android:layout_marginLeft="107dp"
-            android:text="Button"
+            android:id="@+id/To_Do"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="TO-DO"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button7"
+            app:layout_constraintStart_toEndOf="@+id/Calendar"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -43,16 +46,21 @@
 
         <CalendarView
             android:id="@+id/calendarView3"
-            android:layout_width="386dp"
-            android:layout_height="399dp"
-            tools:layout_editor_absoluteX="6dp"
-            tools:layout_editor_absoluteY="52dp" />
+            android:layout_width="416dp"
+            android:layout_height="312dp"
+            tools:layout_editor_absoluteX="-3dp"
+            tools:layout_editor_absoluteY="85dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton2"
+            android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
+            app:layout_constraintBottom_toTopOf="@+id/calendarView3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_menu_add" />
