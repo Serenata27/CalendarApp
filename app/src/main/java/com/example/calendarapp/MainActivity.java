@@ -17,85 +17,65 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import com.example.calendarapp.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+
+
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
-    ActivityMainBinding binding;
-    EditText eiditCourseName,eiditCourseTime,eiditCourseInstructor;
-    Button btnClassAdd;
-    ListView listClass;
+    private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-
-        //FloatingActionButton fab = findViewById(R.id.add_exam);
-        //fab.setOnClickListener(view -> openExamAdder());
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
 
-        // this is for bottom navigation view
-        /*
-        binding.bottomNavigation.setBackground(null);
-        binding.bottomNavigation.setOnItemSelectedListener(item -> {
+        loadFragment(new HomeFragment());
 
-           if( item.getItemId() == R.id.navhome ){
-               replaceFragment(new HomeFragment());
-           } else if (item.getItemId() == R.id.navclass) {
-               replaceFragment(new ClassFragment());
-           } else if (item.getItemId() == R.id.navassignment) {
-               replaceFragment(new AssignmentFragment());
-           } else if (item.getItemId() == R.id.navexam) {
-               replaceFragment(new ExamFragment());
-           } else if (item.getItemId() == R.id.navtodo) {
-               replaceFragment(new TodoFragment());
-           }
-           return true;
-        });
-
-        //this is for fragment class
-        eiditCourseName = (EditText) findViewById(R.id.eiditCourseName);
-        eiditCourseTime = (EditText) findViewById(R.id.eiditCourseTime);
-        eiditCourseInstructor = (EditText) findViewById(R.id.eiditCourseInstructor);
-        btnClassAdd = (Button) findViewById(R.id.btnClassAdd);
-        listClass = (ListView) findViewById(R.id.listClass);
-        //ArrayList<String> classes = new ArrayList<>();
-        //ArrayAdapter<String> adapterClasses = new ArrayAdapter<String>(this,R.layout.fragment_class,R.id.listClass,classes);
-        //listClass.setAdapter(adapterClasses);
-        btnClassAdd.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                String courseName = eiditCourseName.getText().toString();
-                String courseTime = eiditCourseTime.getText().toString();
-                String courseInstructor = eiditCourseInstructor.getText().toString();
-                //classes.add("Course: "+courseName+" Time: "+courseTime+" Instructor: "+courseInstructor);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+
+                if (item.getItemId() == R.id.navhome) {
+                    fragment = new HomeFragment();
+                } else if (item.getItemId() == R.id.navclass) {
+                    fragment = new ClassFragment();
+                } else if (item.getItemId() == R.id.navassignment) {
+                    fragment = new AssignmentFragment();
+                } else if (item.getItemId() == R.id.navexam) {
+                    fragment = new ExamFragment();
+                } else if (item.getItemId() == R.id.navtodo) {
+                    fragment = new TodoFragment();
+                }
+
+                return loadFragment(fragment);
             }
-
         });
-
-         */
-
     }
 
-    private void openExamAdder() {
-        Intent intent = new Intent(this, ExamAdder.class);
-        startActivity(intent);
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frameLayout, fragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 
-    private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.commit();
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
-
-
-
 }
