@@ -1,14 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ClassFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
+        android:id="@+id/eiditCourseName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:hint="Enter Course Name"
+        />
+    <EditText
+        android:id="@+id/eiditCourseTime"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@id/eiditCourseName"
+        android:hint="Enter Course Time"
+        />
+    <EditText
+        android:id="@+id/eiditCourseInstructor"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@id/eiditCourseTime"
+        android:hint="Enter Course Instructor"
+        />
+
+    <Button
+        android:id="@+id/btnClassAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eiditCourseInstructor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Add" />
+
+    <ListView
+        android:id="@+id/listClass"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="class" />
+        android:layout_below="@id/btnClassAdd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
 
-</FrameLayout>
+
+</RelativeLayout>
+
