@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // this is for bottom navigation view
+        /*
         binding.bottomNavigation.setBackground(null);
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
 
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+         */
 
     }
 
