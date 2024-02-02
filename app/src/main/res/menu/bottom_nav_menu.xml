@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Home"
+        android:id="@+id/navhome"
+        android:icon="@drawable/baseline_home_24"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Class"
+        android:id="@+id/navclass"
+        android:icon="@drawable/baseline_class_24"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Assignment"
+        android:id="@+id/navassignment"
+        android:icon="@drawable/baseline_assignment_add_24"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Exam"
+        android:id="@+id/navexam"
+        android:icon="@drawable/baseline_date_range_24"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="ToDo"
+        android:id="@+id/navtodo"
+        android:icon="@drawable/baseline_format_list_bulleted_24"/>
+</menu>
