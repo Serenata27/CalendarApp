@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -31,10 +30,8 @@ public class ExamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_exam, container, false);
 
-        // Initialize variables
         exams = new ArrayList<>();
         adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, exams);
 
@@ -44,10 +41,8 @@ public class ExamFragment extends Fragment {
         addButton = view.findViewById(R.id.addButton);
         examListView = view.findViewById(R.id.listViewExams);
 
-        // Set adapter to list view
         examListView.setAdapter(adapter);
 
-        // Handle add button click
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
