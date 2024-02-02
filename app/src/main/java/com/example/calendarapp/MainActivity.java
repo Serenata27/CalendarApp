@@ -67,14 +67,14 @@ public class MainActivity extends AppCompatActivity {
         listClass = (ListView) findViewById(R.id.listClass);
         //ArrayList<String> classes = new ArrayList<>();
         //ArrayAdapter<String> adapterClasses = new ArrayAdapter<String>(this,R.layout.fragment_class,R.id.listClass,classes);
-        listClass.setAdapter(adapterClasses);
+        //listClass.setAdapter(adapterClasses);
         btnClassAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String courseName = eiditCourseName.getText().toString();
                 String courseTime = eiditCourseTime.getText().toString();
                 String courseInstructor = eiditCourseInstructor.getText().toString();
-                classes.add("Course: "+courseName+" Time: "+courseTime+" Instructor: "+courseInstructor);
+                //classes.add("Course: "+courseName+" Time: "+courseTime+" Instructor: "+courseInstructor);
             }
 
         });
