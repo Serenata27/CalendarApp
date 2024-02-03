@@ -4,24 +4,24 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/editTextDate"
+    <Button
+        android:id="@+id/btnSelectDate"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
-        android:hint="Enter Exam Date"/>
+        android:layout_marginRight="30dp"
+        android:text="Select Exam Date" />
 
     <EditText
         android:id="@+id/editTextTime"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_below="@+id/btnSelectDate"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_below="@+id/editTextDate"
-        android:hint="Enter Exam Time"/>
+        android:hint="Enter Exam Time" />
 
     <EditText
         android:id="@+id/editTextLocation"
@@ -31,7 +31,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:layout_below="@+id/editTextTime"
-        android:hint="Enter Exam Location"/>
+        android:hint="Enter Exam Location" />
 
     <Button
         android:id="@+id/addButton"
@@ -40,7 +40,8 @@
         android:layout_below="@+id/editTextLocation"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Add"/>
+        android:text="Add" />
+
     <Button
         android:id="@+id/editExammBotton"
         android:layout_width="wrap_content"
@@ -55,5 +56,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/editExammBotton"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp" />
 </RelativeLayout>
