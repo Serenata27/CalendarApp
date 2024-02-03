@@ -43,6 +43,7 @@ public class ClassFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadData();
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
