@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ClassFragment">
+    tools:context=".MainActivity">
 
     <EditText
         android:id="@+id/eiditCourseName"
@@ -43,15 +43,25 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Add" />
+    <Button
+        android:id="@+id/btnClassEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/btnClassAdd"
+        android:layout_centerHorizontal="true"
+        android:text="Edit" />
 
     <ListView
         android:id="@+id/listClass"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/btnClassAdd"
+        android:layout_below="@id/btnClassEdit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         />
+
+
 
 
 </RelativeLayout>

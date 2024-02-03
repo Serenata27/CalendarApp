@@ -7,9 +7,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
@@ -18,7 +23,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         loadFragment(new HomeFragment());
 
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         });
     }
 
+
+
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction()
@@ -59,4 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
+
+
 }
+
