@@ -1,20 +1,16 @@
 package com.example.calendarapp;
 
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.os.Environment;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,14 +18,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationBarView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ClassFragment extends Fragment{
@@ -44,18 +36,20 @@ public class ClassFragment extends Fragment{
     private int indexVal;
     private Classes classval;
 
-
     public ClassFragment() {
         //Constructor
     }
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        loadData();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_class, container, false);
-
-        classes = new ArrayList<>();
         adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, classes);
+
 
         eiditCourseName = view.findViewById(R.id.eiditCourseName);
         eiditCourseTime = view.findViewById(R.id.eiditCourseTime);
@@ -64,8 +58,6 @@ public class ClassFragment extends Fragment{
         btnClassEdit = view.findViewById(R.id.btnClassEdit);
         listClass = view.findViewById(R.id.listClass);
         listClass.setAdapter(adapter);
-
-
         //add data
         btnClassAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +120,7 @@ public class ClassFragment extends Fragment{
             eiditCourseTime.getText().clear();
             eiditCourseInstructor.getText().clear();
         }
+        saveDate();
     }
 
     //Update class
@@ -144,15 +137,37 @@ public class ClassFragment extends Fragment{
         eiditCourseTime.getText().clear();
         eiditCourseInstructor.getText().clear();
         indexVal = 0; //reset index
+        saveDate();
+
     }
 
     //Delete
     private void delete(){
         this.classes.remove(indexVal);
+        saveDate();
+    }
+    //save data
+    private void saveDate(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("classShare", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(classes);
+        editor.putString("list",json);
+        editor.apply();
+    }
+    private void loadData(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("classShare", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("list",null);
+        Type type = new TypeToken<ArrayList<Classes>>() {}.getType();
+        classes = gson.fromJson(json, type);
+
+        if(classes == null){
+            classes = new ArrayList<>();
+        }
     }
 
-
-    private static class Classes {
+    private static class Classes{
         private String classes;
         private String time;
         private String instructor;
@@ -169,6 +184,7 @@ public class ClassFragment extends Fragment{
         public String toString() {
             return "Classes: " + classes + ", Time: " + time + ", Instructor: " + instructor;
         }
+
     }
 
 }

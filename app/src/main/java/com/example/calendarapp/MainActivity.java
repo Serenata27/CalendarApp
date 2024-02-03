@@ -18,6 +18,9 @@ import java.io.FileOutputStream;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+    private Fragment MyFragment;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,13 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 return loadFragment(fragment);
             }
         });
-    }
 
+        //Restore the fragment's instance
+        if (savedInstanceState != null) {
+            MyFragment = getSupportFragmentManager().getFragment(savedInstanceState, "myFragmentName");
+        }
+
+    }
 
 
     private boolean loadFragment(Fragment fragment) {
@@ -65,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
+
 
 
 }
