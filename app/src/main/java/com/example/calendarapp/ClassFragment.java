@@ -29,7 +29,7 @@ public class ClassFragment extends Fragment{
     private ArrayList<Classes> classes;
     private ArrayAdapter<Classes> adapter;
 
-    private EditText eiditCourseName, eiditCourseTime, eiditCourseInstructor;
+    private EditText editCourseName, editCourseTime, editCourseInstructor;
     private Button btnClassAdd,btnClassEdit;
     private ListView listClass;
     private String item;
@@ -52,9 +52,9 @@ public class ClassFragment extends Fragment{
         adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, classes);
 
 
-        eiditCourseName = view.findViewById(R.id.eiditCourseName);
-        eiditCourseTime = view.findViewById(R.id.eiditCourseTime);
-        eiditCourseInstructor = view.findViewById(R.id.eiditCourseInstructor);
+        editCourseName = view.findViewById(R.id.eiditCourseName);
+        editCourseTime = view.findViewById(R.id.eiditCourseTime);
+        editCourseInstructor = view.findViewById(R.id.eiditCourseInstructor);
         btnClassAdd = view.findViewById(R.id.btnClassAdd);
         btnClassEdit = view.findViewById(R.id.btnClassEdit);
         listClass = view.findViewById(R.id.listClass);
@@ -105,9 +105,9 @@ public class ClassFragment extends Fragment{
     }
 
     private void addClass() {
-        String classes = eiditCourseName.getText().toString();
-        String time = eiditCourseTime.getText().toString();
-        String instructor = eiditCourseInstructor.getText().toString();
+        String classes = editCourseName.getText().toString();
+        String time = editCourseTime.getText().toString();
+        String instructor = editCourseInstructor.getText().toString();
 
 
 
@@ -117,26 +117,26 @@ public class ClassFragment extends Fragment{
             adapter.notifyDataSetChanged();
 
             // Clear input fields
-            eiditCourseName.getText().clear();
-            eiditCourseTime.getText().clear();
-            eiditCourseInstructor.getText().clear();
+            editCourseName.getText().clear();
+            editCourseTime.getText().clear();
+            editCourseInstructor.getText().clear();
         }
         saveDate();
     }
 
     //Update class
     private void updateClass(){
-        String classes = eiditCourseName.getText().toString();
-        String time = eiditCourseTime.getText().toString();
-        String instructor = eiditCourseInstructor.getText().toString();
+        String classes = editCourseName.getText().toString();
+        String time = editCourseTime.getText().toString();
+        String instructor = editCourseInstructor.getText().toString();
         Classes newClass = new Classes(classes,time,instructor);
 
         this.classes.set(indexVal,newClass);
         adapter.notifyDataSetChanged();
 
-        eiditCourseName.getText().clear();
-        eiditCourseTime.getText().clear();
-        eiditCourseInstructor.getText().clear();
+        editCourseName.getText().clear();
+        editCourseTime.getText().clear();
+        editCourseInstructor.getText().clear();
         indexVal = 0; //reset index
         saveDate();
 

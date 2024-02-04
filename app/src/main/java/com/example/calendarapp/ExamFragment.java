@@ -31,12 +31,12 @@ import java.util.Locale;
 
 public class ExamFragment extends Fragment {
 
-    private ArrayList<Classes> classes;
-    private ArrayAdapter<Classes> adapter;
+    private ArrayList<Exam> exams;
+    private ArrayAdapter<Exam> adapter;
 
-    private EditText eiditCourseTime, eiditCourseInstructor;
-    private Button btnClassAdd, btnClassEdit, btnSelectDate;
-    private ListView listClass;
+    private EditText examDate, examTime;
+    private Button btnAdd, btnEdit, btnSelectDate;
+    private ListView listExam;
     private Calendar selectedDate = Calendar.getInstance();
 
     public ExamFragment() {
@@ -53,14 +53,14 @@ public class ExamFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exam, container, false);
-        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, classes);
+        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, exams);
 
-        eiditCourseTime = view.findViewById(R.id.editTextTime);
-        eiditCourseInstructor = view.findViewById(R.id.editTextLocation);
-        btnClassAdd = view.findViewById(R.id.addButton);
-        btnClassEdit = view.findViewById(R.id.editExammBotton);
-        listClass = view.findViewById(R.id.listViewExams);
-        listClass.setAdapter(adapter);
+        examDate = view.findViewById(R.id.editTextTime);
+        examTime = view.findViewById(R.id.editTextLocation);
+        btnAdd = view.findViewById(R.id.addButton);
+        btnEdit = view.findViewById(R.id.editExammBotton);
+        listExam = view.findViewById(R.id.listViewExams);
+        listExam.setAdapter(adapter);
 
         // Button for selecting exam date
         btnSelectDate = view.findViewById(R.id.btnSelectDate);
@@ -72,23 +72,23 @@ public class ExamFragment extends Fragment {
         });
 
         //add data
-        btnClassAdd.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addClass();
+                addExam();
             }
         });
 
         //Update data
-        btnClassEdit.setOnClickListener(new View.OnClickListener() {
+        btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateClass();
+                updateExam();
             }
         });
 
         //getting index when click on listview
-        listClass.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listExam.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString() + " has been selected";
@@ -98,7 +98,7 @@ public class ExamFragment extends Fragment {
         });
 
         //Delete listview class when double click
-        listClass.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listExam.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString() + " has been deleted";
@@ -136,41 +136,41 @@ public class ExamFragment extends Fragment {
         return sdf.format(date);
     }
 
-    private void addClass() {
-        String time = eiditCourseTime.getText().toString();
-        String instructor = eiditCourseInstructor.getText().toString();
+    private void addExam() {
+        String time = examDate.getText().toString();
+        String instructor = examTime.getText().toString();
 
         if (!time.isEmpty() && !instructor.isEmpty() && selectedDate != null) {
-            Classes newClass = new Classes(time, instructor, selectedDate.getTime());
-            this.classes.add(newClass);
+            Exam newClass = new Exam(time, instructor, selectedDate.getTime());
+            this.exams.add(newClass);
             adapter.notifyDataSetChanged();
 
             // Clear input fields
-            eiditCourseTime.getText().clear();
-            eiditCourseInstructor.getText().clear();
+            examDate.getText().clear();
+            examTime.getText().clear();
             btnSelectDate.setText("Select Exam Date");
         }
         saveDate();
     }
 
-    private void updateClass() {
-        String time = eiditCourseTime.getText().toString();
-        String instructor = eiditCourseInstructor.getText().toString();
+    private void updateExam() {
+        String time = examDate.getText().toString();
+        String instructor = examTime.getText().toString();
 
         if (!time.isEmpty() && !instructor.isEmpty() && selectedDate != null) {
-            Classes newClass = new Classes(time, instructor, selectedDate.getTime());
-            this.classes.set(0, newClass);
+            Exam newClass = new Exam(time, instructor, selectedDate.getTime());
+            this.exams.set(0, newClass);
             adapter.notifyDataSetChanged();
 
-            eiditCourseTime.getText().clear();
-            eiditCourseInstructor.getText().clear();
+            examDate.getText().clear();
+            examTime.getText().clear();
             btnSelectDate.setText("Select Exam Date");
         }
         saveDate();
     }
 
     private void delete() {
-        this.classes.remove(0);
+        this.exams.remove(0);
         saveDate();
     }
 
@@ -178,7 +178,7 @@ public class ExamFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("classShare2", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(classes);
+        String json = gson.toJson(exams);
         editor.putString("list2", json);
         editor.apply();
     }
@@ -187,21 +187,21 @@ public class ExamFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("classShare2", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("list2", null);
-        Type type = new TypeToken<ArrayList<Classes>>() {
+        Type type = new TypeToken<ArrayList<Exam>>() {
         }.getType();
-        classes = gson.fromJson(json, type);
+        exams = gson.fromJson(json, type);
 
-        if (classes == null) {
-            classes = new ArrayList<>();
+        if (exams == null) {
+            exams = new ArrayList<>();
         }
     }
 
-    private static class Classes {
+    private static class Exam {
         private String time;
         private String instructor;
         private Date examDate;
 
-        Classes(String time, String instructor, Date examDate) {
+        Exam(String time, String instructor, Date examDate) {
             this.time = time;
             this.instructor = instructor;
             this.examDate = examDate;

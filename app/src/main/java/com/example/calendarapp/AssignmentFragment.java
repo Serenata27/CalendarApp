@@ -26,15 +26,15 @@ import java.util.ArrayList;
 
 public class AssignmentFragment extends Fragment{
 
-    private ArrayList<Classes> classes;
-    private ArrayAdapter<Classes> adapter;
+    private ArrayList<Assignment> assignments;
+    private ArrayAdapter<Assignment> adapter;
 
-    private EditText eiditCourseName, eiditCourseTime, eiditCourseInstructor;
-    private Button btnClassAdd,btnClassEdit;
-    private ListView listClass;
+    private EditText assignTitle, assignDue, assignClass;
+    private Button btnAdd, btnEdit;
+    private ListView listAssign;
     private String item;
     private int indexVal;
-    private Classes classval;
+    private Assignment assignmentVal;
 
     public AssignmentFragment() {
         //Constructor
@@ -49,34 +49,34 @@ public class AssignmentFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_assignment, container, false);
-        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, classes);
+        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, assignments);
 
 
-        eiditCourseName = view.findViewById(R.id.asignmentTitle);
-        eiditCourseTime = view.findViewById(R.id.asignmentDue);
-        eiditCourseInstructor = view.findViewById(R.id.asignmentClass);
-        btnClassAdd = view.findViewById(R.id.asignmentadd);
-        btnClassEdit = view.findViewById(R.id.asignmentEdit);
-        listClass = view.findViewById(R.id.asignmentList);
-        listClass.setAdapter(adapter);
+        assignTitle = view.findViewById(R.id.asignmentTitle);
+        assignDue = view.findViewById(R.id.asignmentDue);
+        assignClass = view.findViewById(R.id.asignmentClass);
+        btnAdd = view.findViewById(R.id.asignmentadd);
+        btnEdit = view.findViewById(R.id.asignmentEdit);
+        listAssign = view.findViewById(R.id.asignmentList);
+        listAssign.setAdapter(adapter);
         //add data
-        btnClassAdd.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addClass();
+                add();
             }
         });
 
         //Update data
-        btnClassEdit.setOnClickListener(new View.OnClickListener() {
+        btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateClass();;
+                update();;
             }
         });
 
         //getting index when click on listview
-        listClass.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listAssign.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 item = parent.getItemAtPosition(position).toString()+"has been selected";
@@ -86,7 +86,7 @@ public class AssignmentFragment extends Fragment{
         });
 
         //Delete listview class when double click
-        listClass.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listAssign.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 item = parent.getItemAtPosition(position).toString()+"has been deleted";
@@ -104,39 +104,39 @@ public class AssignmentFragment extends Fragment{
         return view;
     }
 
-    private void addClass() {
-        String classes = eiditCourseName.getText().toString();
-        String time = eiditCourseTime.getText().toString();
-        String instructor = eiditCourseInstructor.getText().toString();
+    private void add() {
+        String classes = assignTitle.getText().toString();
+        String time = assignDue.getText().toString();
+        String instructor = assignClass.getText().toString();
 
 
 
         if (!classes.isEmpty() && !time.isEmpty() && !instructor.isEmpty()) {
-            Classes newClass = new Classes(classes,time,instructor);
-            this.classes.add(newClass);
+            Assignment newClass = new Assignment(classes,time,instructor);
+            this.assignments.add(newClass);
             adapter.notifyDataSetChanged();
 
             // Clear input fields
-            eiditCourseName.getText().clear();
-            eiditCourseTime.getText().clear();
-            eiditCourseInstructor.getText().clear();
+            assignTitle.getText().clear();
+            assignDue.getText().clear();
+            assignClass.getText().clear();
         }
         saveDate();
     }
 
     //Update class
-    private void updateClass(){
-        String classes = eiditCourseName.getText().toString();
-        String time = eiditCourseTime.getText().toString();
-        String instructor = eiditCourseInstructor.getText().toString();
-        Classes newClass = new Classes(classes,time,instructor);
+    private void update(){
+        String classes = assignTitle.getText().toString();
+        String time = assignDue.getText().toString();
+        String instructor = assignClass.getText().toString();
+        Assignment newClass = new Assignment(classes,time,instructor);
 
-        this.classes.set(indexVal,newClass);
+        this.assignments.set(indexVal,newClass);
         adapter.notifyDataSetChanged();
 
-        eiditCourseName.getText().clear();
-        eiditCourseTime.getText().clear();
-        eiditCourseInstructor.getText().clear();
+        assignTitle.getText().clear();
+        assignDue.getText().clear();
+        assignClass.getText().clear();
         indexVal = 0; //reset index
         saveDate();
 
@@ -144,7 +144,7 @@ public class AssignmentFragment extends Fragment{
 
     //Delete
     private void delete(){
-        this.classes.remove(indexVal);
+        this.assignments.remove(indexVal);
         saveDate();
     }
     //save data
@@ -152,7 +152,7 @@ public class AssignmentFragment extends Fragment{
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("classShare1", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(classes);
+        String json = gson.toJson(assignments);
         editor.putString("list1",json);
         editor.apply();
     }
@@ -160,25 +160,25 @@ public class AssignmentFragment extends Fragment{
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("classShare1", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("list1",null);
-        Type type = new TypeToken<ArrayList<Classes>>() {}.getType();
-        classes = gson.fromJson(json, type);
+        Type type = new TypeToken<ArrayList<Assignment>>() {}.getType();
+        assignments = gson.fromJson(json, type);
 
-        if(classes == null){
-            classes = new ArrayList<>();
+        if(assignments == null){
+            assignments = new ArrayList<>();
         }
     }
 
-    private static class Classes{
+    private static class Assignment {
         private String classes;
         private String time;
         private String instructor;
 
-        Classes(String classes, String time, String instructor) {
+        Assignment(String classes, String time, String instructor) {
             this.classes = classes;
             this.time = time;
             this.instructor = instructor;
         }
-        Classes(){}
+        Assignment(){}
 
         @NonNull
         @Override

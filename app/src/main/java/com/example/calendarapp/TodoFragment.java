@@ -26,15 +26,15 @@ import java.util.ArrayList;
 
 public class TodoFragment extends Fragment{
 
-    private ArrayList<Classes> classes;
-    private ArrayAdapter<Classes> adapter;
+    private ArrayList<Todo> todo;
+    private ArrayAdapter<Todo> adapter;
 
-    private EditText eiditCourseName, eiditCourseTime, eiditCourseInstructor;
-    private Button btnClassAdd,btnClassEdit;
-    private ListView listClass;
+    private EditText todoText;
+    private Button todoAdd, todoEdit;
+    private ListView todoListView;
     private String item;
     private int indexVal;
-    private Classes classval;
+    private Todo todoVal;
 
     public TodoFragment() {
         //Constructor
@@ -49,30 +49,30 @@ public class TodoFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_todo, container, false);
-        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, classes);
-        eiditCourseName = view.findViewById(R.id.todoText);
-        btnClassAdd = view.findViewById(R.id.todoAdd);
-        btnClassEdit = view.findViewById(R.id.todoEdit);
-        listClass = view.findViewById(R.id.todoListView);
-        listClass.setAdapter(adapter);
+        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, todo);
+        todoText = view.findViewById(R.id.todoText);
+        todoAdd = view.findViewById(R.id.todoAdd);
+        todoEdit = view.findViewById(R.id.todoEdit);
+        todoListView = view.findViewById(R.id.todoListView);
+        todoListView.setAdapter(adapter);
         //add data
-        btnClassAdd.setOnClickListener(new View.OnClickListener() {
+        todoAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addClass();
+                addtodo();
             }
         });
 
         //Update data
-        btnClassEdit.setOnClickListener(new View.OnClickListener() {
+        todoEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateClass();;
+                update();
             }
         });
 
         //getting index when click on listview
-        listClass.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        todoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 item = parent.getItemAtPosition(position).toString()+"has been selected";
@@ -82,7 +82,7 @@ public class TodoFragment extends Fragment{
         });
 
         //Delete listview class when double click
-        listClass.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        todoListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 item = parent.getItemAtPosition(position).toString()+"has been deleted";
@@ -100,31 +100,29 @@ public class TodoFragment extends Fragment{
         return view;
     }
 
-    private void addClass() {
-        String classes = eiditCourseName.getText().toString();
-
-
+    private void addtodo() {
+        String classes = todoText.getText().toString();
 
         if (!classes.isEmpty()) {
-            Classes newClass = new Classes(classes);
-            this.classes.add(newClass);
+            Todo newClass = new Todo(classes);
+            this.todo.add(newClass);
             adapter.notifyDataSetChanged();
 
             // Clear input fields
-            eiditCourseName.getText().clear();
+            todoText.getText().clear();
         }
         saveDate();
     }
 
     //Update class
-    private void updateClass(){
-        String classes = eiditCourseName.getText().toString();
-        Classes newClass = new Classes(classes);
+    private void update(){
+        String classes = todoText.getText().toString();
+        Todo newClass = new Todo(classes);
 
-        this.classes.set(indexVal,newClass);
+        this.todo.set(indexVal,newClass);
         adapter.notifyDataSetChanged();
 
-        eiditCourseName.getText().clear();
+        todoText.getText().clear();
         indexVal = 0; //reset index
         saveDate();
 
@@ -132,44 +130,46 @@ public class TodoFragment extends Fragment{
 
     //Delete
     private void delete(){
-        this.classes.remove(indexVal);
+        this.todo.remove(indexVal);
         saveDate();
     }
     //save data
     private void saveDate(){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("classShare2", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("classShare3", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(classes);
-        editor.putString("list2",json);
+        String json = gson.toJson(todo);
+        editor.putString("list3",json);
         editor.apply();
     }
     private void loadData(){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("classShare2", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("classShare3", Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("list2",null);
-        Type type = new TypeToken<ArrayList<Classes>>() {}.getType();
-        classes = gson.fromJson(json, type);
+        String json = sharedPreferences.getString("list3",null);
+        Type type = new TypeToken<ArrayList<Todo>>() {}.getType();
+        todo = gson.fromJson(json, type);
 
-        if(classes == null){
-            classes = new ArrayList<>();
+        if(todo == null){
+            todo = new ArrayList<>();
         }
     }
 
-    private static class Classes{
-        private String classes;
+    private static class Todo {
+        private String todo;
 
 
-        Classes(String classes) {
-            this.classes = classes;
+        Todo(String todo) {
+            this.todo = todo;
 
         }
-        Classes(){}
+        Todo(){
+            todo ="Long click to remove todo list";
+        }
 
         @NonNull
         @Override
         public String toString() {
-            return "To-Do: " + classes;
+            return "To-Do: " + todo;
         }
 
     }
